@@ -2,6 +2,9 @@
 ---
 {%- assign release = site.github.releases | first -%}
 {%- assign asset = release.assets | where: "name", "iSH.ipa" -%}
+{%- assign version_parts = release.name | split: "-build" -%}
+{%- assign release_version = version_parts[0] -%}
+{%- assign build_number = version_parts[1] -%}
 {
     "name": {{ site.title | jsonify }},
     "identifier": "app.ish.iSH",
@@ -17,7 +20,8 @@
             "screenshotURLs": [
                 {{ "/assets/front-iphone-full.png" | absolute_url | jsonify }}
             ],
-            "version": {{ release.name | jsonify }},
+            "version": {{ release_version | jsonify }},
+            "buildNumber": {{ build_number | jsonify }},
             "versionDate": {{ release.created_at | date_to_xmlschema | jsonify }},
             "versionDescription": {{ release.body | jsonify }},
             "downloadURL": {{ asset[0].browser_download_url | jsonify }},
